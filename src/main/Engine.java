@@ -18,7 +18,7 @@ public class Engine {
 		System.out.println("Welcome to to best cooking website in the world!");
 		System.out.println("================================================");
 		int choice = printOptions(new String[] { "Signin", "Sign up", "Quit" });
-		if (choice == 1) { // Signin
+		if (choice == 1) { // Sign in
 			signin();
 		} else if (choice == 2) { // Sign up
 			signup();
