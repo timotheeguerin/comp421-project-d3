@@ -22,7 +22,7 @@ public class Engine {
 			return;
 		} else if (choice == 3) { // Quit
 			System.out.println("Why do you leave us!");
-			return;
+			System.exit(0);
 		}
 
 	}
@@ -33,9 +33,12 @@ public class Engine {
 		System.out.println("\t LOGIN");
 		System.out.println("================================================");
 		Scanner scanIn = new Scanner(System.in);
+		String email, password;
 		while (true) {
-			System.out.print("Username: ");
+			System.out.print("Email: ");
+			email = scanIn.nextLine();
 			System.out.print("Password: ");
+			password = scanIn.nextLine();
 		}
 	}
 
