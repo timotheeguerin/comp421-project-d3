@@ -1,5 +1,7 @@
 package main;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class Engine {
@@ -7,7 +9,7 @@ public class Engine {
 	private int userId;
 
 	Scanner scanIn = new Scanner(System.in);
-	
+
 	public void start() {
 		homepage();
 	}
@@ -17,21 +19,64 @@ public class Engine {
 		System.out.println("================================================");
 		int choice = printOptions(new String[] { "Signin", "Sign up", "Quit" });
 		if (choice == 1) { // Signin
-		 	signin();
-			return;
+			signin();
 		} else if (choice == 2) { // Sign up
 			signup();
+		} else if (choice == 3) { // Quit
+			System.out.println("Why do you leave us!");
+			scanIn.close();
+			System.exit(0);
+		}
+		mainMenu();
+	}
+
+	private void mainMenu() {
+		System.out.println("\n\n");
+		System.out.println("================================================");
+		System.out.println("Welcome back user " + userId);
+		System.out.println("================================================");
+		int choice = printOptions(new String[] { "Search by recipe name",
+				"OTHER TODO", "Quit" });
+		if (choice == 1) { // Search by name
+			searchByRecipeName();
+		} else if (choice == 2) { // Sign up
 			return;
 		} else if (choice == 3) { // Quit
 			System.out.println("Why do you leave us!");
 			scanIn.close();
 			System.exit(0);
 		}
+	}
+
+	private void searchByRecipeName() {
+
+		System.out.println("================================================");
+		System.out.println("\t Search recipe by name");
+		System.out.println("================================================");
+		String query = scanIn.nextLine();
+		List<String> recipes = DBProcess.findRecipes(query);
+		recipeList(recipes);
 
 	}
 
-	private void signin() {
+	private void recipeList(List<String> recipes) {
+		int choice = printOptions(recipes.toArray(new String[recipes.size()]));
+		String recipeName = recipes.get(choice - 1);
+		displayRecipe(recipeName);
+	}
+
+	private void displayRecipe(String recipeName) {
 		
+		HashMap<String, String> recipe = DBProcess.getRecipe(recipeName);
+		System.out.println();
+		System.out.println("================================================");
+		System.out.println("\t" + recipe.get("name"));
+		System.out.println("================================================");
+		System.out.println(recipe.get("description"));
+	}
+
+	private void signin() {
+
 		System.out.println();
 		System.out.println("================================================");
 		System.out.println("\t LOGIN");
@@ -43,7 +88,7 @@ public class Engine {
 			System.out.print("Password: ");
 			password = scanIn.next();
 			userId = DBProcess.loginUser(email, password);
-			if(userId != -1){
+			if (userId != -1) {
 				break;
 			}
 		}
@@ -60,8 +105,8 @@ public class Engine {
 			email = scanIn.next();
 			System.out.print("Password: ");
 			password = scanIn.next();
-			
-			if(DBProcess.signUp(email, password)){
+
+			if (DBProcess.signUp(email, password)) {
 				userId = DBProcess.loginUser(email, password);
 				break;
 			}
@@ -73,7 +118,7 @@ public class Engine {
 		for (int i = 0; i < options.length; i++) {
 			System.out.println((i + 1) + ".\t" + options[i]);
 		}
-		
+
 		int result = 0;
 		while (!(result > 0 && result <= options.length)) {
 			System.out.print("Choice: ");
