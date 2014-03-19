@@ -53,7 +53,8 @@ public class Engine {
 		System.out.println("================================================");
 		System.out.println("\t Search recipe by name");
 		System.out.println("================================================");
-		String query = scanIn.nextLine();
+		String query = scanIn.next();
+		System.out.println(query);
 		List<String> recipes = DBProcess.findRecipes(query);
 		recipeList(recipes);
 
@@ -72,7 +73,7 @@ public class Engine {
 		System.out.println("================================================");
 		System.out.println("\t" + recipe.get("name"));
 		System.out.println("================================================");
-		System.out.println(recipe.get("description"));
+		System.out.println(recipe.get("preparation"));
 	}
 
 	private void signin() {
