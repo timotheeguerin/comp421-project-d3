@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 public class DBProcess{
 	public static SQLConnection sql = new SQLConnection("bendodev.no-ip.org","comp421project", "root", "madremia350");
@@ -48,28 +49,42 @@ public class DBProcess{
 		return (id!=-1);
 	}
 	
-	public static int getNextId(){
-		int a = 0;
-		
-		
-		List<HashMap<String, String>> rs = sql.ExecuteQuery("SELECT MAX(id) FROM user");
+	public static int getNextId(String tableName){
+
+		List<HashMap<String, String>> rs = sql.ExecuteQuery("SELECT MAX(id) as max_val FROM `" + tableName + "`");
 		
 		if(rs.size() < 1){
 			return -1;
 		}
 		
+		//debugPrint(rs);
+		
 		int id;
-		id = Integer.parseInt(rs.get(0).get("id"));
+		id = Integer.parseInt(rs.get(0).get("max_val"));
 		return id+1;
 	}
 	
 	public static boolean signUp(String email, String password){
 		if(!existsUser(email)){
-			List<HashMap<String, String>> rs = sql.ExecuteQuery("INSERT INTO user (id,email,password,guidemode,level_id,info) VALUES (?,?,?,0,1)",email,password);
+			int rs = sql.ExecuteUpdate(
+						"INSERT INTO user (id,email,password,guidemode,level_id,info) VALUES (?,?,?,0,1,'')",
+						String.valueOf(getNextId("user")),email,password);
+			return true;
 		}
 		return false;
 	}
 	
+	
+	static void debugPrint(List<HashMap<String,String>> list){
+		System.out.println("Printing shit of size :" + list.size());
+		for(HashMap<String,String> map : list){
+			for(Entry<String,String> e : map.entrySet()) {
+				System.out.printf("%20s", e.getValue());
+				
+			}
+			System.out.println();
+		}
+	}
 	
 	
 }

@@ -20,7 +20,7 @@ public class Engine {
 		 	signin();
 			return;
 		} else if (choice == 2) { // Sign up
-			System.out.println("Signup!");
+			signup();
 			return;
 		} else if (choice == 3) { // Quit
 			System.out.println("Why do you leave us!");
@@ -61,7 +61,10 @@ public class Engine {
 			System.out.print("Password: ");
 			password = scanIn.next();
 			
-			DBProcess.signUp(email, password);
+			if(DBProcess.signUp(email, password)){
+				userId = DBProcess.loginUser(email, password);
+				break;
+			}
 		}
 	}
 

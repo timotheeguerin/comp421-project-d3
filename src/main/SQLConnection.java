@@ -55,7 +55,22 @@ public class SQLConnection {
 			return null;
 		}
 	}
-
+	public int ExecuteUpdate(String query, String... args) {
+		try {
+			PreparedStatement st = db.prepareStatement(query);
+			for (int i = 0; i < args.length; i++) {
+				st.setString(i + 1, args[i]);
+			}
+			System.out.println(st.toString());
+			int a = st.executeUpdate();
+			st.close();
+			return a;
+		} catch (SQLException e) {
+			System.out.println("Couldn't execute query");
+			e.printStackTrace();
+			return -1;
+		}
+	}
 	private List<HashMap<String, String>> resultSetToHashList(ResultSet rs) {
 		List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 		try {
