@@ -6,6 +6,8 @@ public class Engine {
 
 	private int user_id;
 
+	Scanner scanIn = new Scanner(System.in);
+	
 	public void start() {
 		homepage();
 	}
@@ -15,30 +17,34 @@ public class Engine {
 		System.out.println("================================================");
 		int choice = printOptions(new String[] { "Signin", "Sign up", "Quit" });
 		if (choice == 1) { // Signin
-			System.out.println("Sign in!");
+		 	signin();
 			return;
 		} else if (choice == 2) { // Sign up
 			System.out.println("Signup!");
 			return;
 		} else if (choice == 3) { // Quit
 			System.out.println("Why do you leave us!");
+			scanIn.close();
 			System.exit(0);
 		}
 
 	}
 
 	private void signin() {
+		
 		System.out.println();
 		System.out.println("================================================");
 		System.out.println("\t LOGIN");
 		System.out.println("================================================");
-		Scanner scanIn = new Scanner(System.in);
 		String email, password;
 		while (true) {
 			System.out.print("Email: ");
-			email = scanIn.nextLine();
+			email = scanIn.next();
+			System.out.println(email);
 			System.out.print("Password: ");
-			password = scanIn.nextLine();
+			password = scanIn.next();
+			System.out.println(password);
+			System.out.println(DBProcess.loginUser(email, password));
 		}
 	}
 
@@ -52,14 +58,12 @@ public class Engine {
 		for (int i = 0; i < options.length; i++) {
 			System.out.println((i + 1) + ".\t" + options[i]);
 		}
-		Scanner scanIn = new Scanner(System.in);
-
+		
 		int result = 0;
 		while (!(result > 0 && result <= options.length)) {
 			System.out.print("Choice: ");
 			result = scanIn.nextInt();
 		}
-		scanIn.close();
 		return result;
 	}
 }
