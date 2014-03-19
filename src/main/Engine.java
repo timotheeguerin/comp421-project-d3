@@ -36,7 +36,7 @@ public class Engine {
 		System.out.println("Welcome back user " + userId);
 		System.out.println("================================================");
 		int choice = printOptions(new String[] { "Search by recipe name",
-				"Search by ingredients", "Quit" });
+				"Search by ingredients", "My recipes", "Quit" });
 		if (choice == 1) { // Search by name
 			searchByRecipeName();
 		} else if (choice == 2) { // Search by ingredients
