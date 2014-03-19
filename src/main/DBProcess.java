@@ -50,7 +50,17 @@ public class DBProcess{
 	
 	public static int getNextId(){
 		int a = 0;
-		return a;
+		
+		
+		List<HashMap<String, String>> rs = sql.ExecuteQuery("SELECT MAX(id) FROM user");
+		
+		if(rs.size() < 1){
+			return -1;
+		}
+		
+		int id;
+		id = Integer.parseInt(rs.get(0).get("id"));
+		return id+1;
 	}
 	
 	public static boolean signUp(String email, String password){
