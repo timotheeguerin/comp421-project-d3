@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Engine {
 
-	private int user_id;
+	private int userId;
 
 	Scanner scanIn = new Scanner(System.in);
 	
@@ -40,17 +40,29 @@ public class Engine {
 		while (true) {
 			System.out.print("Email: ");
 			email = scanIn.next();
-			System.out.println(email);
 			System.out.print("Password: ");
 			password = scanIn.next();
-			System.out.println(password);
-			System.out.println(DBProcess.loginUser(email, password));
+			userId = DBProcess.loginUser(email, password);
+			if(userId != -1){
+				break;
+			}
 		}
 	}
 
 	private void signup() {
 		System.out.println();
 		System.out.println("================================================");
+		System.out.println("\t SIGN UP");
+		System.out.println("================================================");
+		String email, password;
+		while (true) {
+			System.out.print("Email: ");
+			email = scanIn.next();
+			System.out.print("Password: ");
+			password = scanIn.next();
+			
+			DBProcess.signUp(email, password);
+		}
 	}
 
 	private int printOptions(String[] options) {

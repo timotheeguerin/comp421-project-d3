@@ -38,7 +38,7 @@ public class SQLConnection {
 		}
 	}
 
-	public ResultSet ExecuteQuery(String query, String... args) {
+	public List<HashMap<String, String>> ExecuteQuery(String query, String... args) {
 		try {
 			PreparedStatement st = db.prepareStatement(query);
 			for (int i = 0; i < args.length; i++) {
@@ -46,7 +46,9 @@ public class SQLConnection {
 			}
 			System.out.println(st.toString());
 			ResultSet rs = st.executeQuery();
-			return rs;
+			List<HashMap<String, String>> a =  resultSetToHashList(rs);
+			st.close();
+			return a;
 		} catch (SQLException e) {
 			System.out.println("Couldn't execute query");
 			e.printStackTrace();
@@ -61,9 +63,10 @@ public class SQLConnection {
 			while (rs.next()) {
 				HashMap<String, String> map = new HashMap<String, String>();
 				for (int i = 0; i < rsmd.getColumnCount(); i++) {
-					String colName = rsmd.getColumnName(i);
+					String colName = rsmd.getColumnName(i+1);
 					map.put(colName, rs.getString(colName));
 				}
+				list.add(map);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
