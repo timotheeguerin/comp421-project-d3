@@ -39,9 +39,11 @@ public class Engine {
 				"Search by ingredients", "Quit" });
 		if (choice == 1) { // Search by name
 			searchByRecipeName();
-		} else if (choice == 2) { // Sign up
+		} else if (choice == 2) { // Search by ingredients
 			searchByRecipeIngredient();
-		} else if (choice == 3) { // Quit
+		} else if (choice == 3) { // Search by ingredients
+			recipeList(DBProcess.getUserRecipe(userId));
+		} else if (choice == 4) { // Quit
 			System.out.println("Why do you leave us!");
 			scanIn.close();
 			System.exit(0);
@@ -66,7 +68,8 @@ public class Engine {
 		System.out.println("================================================");
 		String query = scanIn.next();
 		System.out.println(query);
-		List<String> recipes = DBProcess.findRecipesByIngredients(query.split(","));
+		List<String> recipes = DBProcess.findRecipesByIngredients(query
+				.split(","));
 		recipeList(recipes);
 
 	}
