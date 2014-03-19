@@ -34,22 +34,25 @@ public class Engine {
 		System.out.println("\n\n");
 		System.out.println("================================================");
 		System.out.println("Welcome back user " + userId);
-		System.out.println("================================================");
 		
-		int choice = printOptions(new String[] { "Search by recipe name",
-				"Search by ingredients","Our most rated recipes", "My recipes","Quit" });
-		if (choice == 1) { // Search by name
-			searchByRecipeName();
-		} else if (choice == 2) { // Search by ingredients
-			searchByRecipeIngredient();
-		} else if (choice == 3) { // Search by ingredients
-			recipeList(DBProcess.getMostLikedRecipes());
-		} else if (choice == 4) { // Search by ingredients
-			recipeList(DBProcess.getUserRecipe(userId));
-		} else if (choice == 5) { // Quit
-			System.out.println("Why do you leave us!");
-			scanIn.close();
-			System.exit(0);
+		while(true) {
+			System.out.println("================================================");
+			
+			int choice = printOptions(new String[] { "Search by recipe name",
+					"Search by ingredients","Our most rated recipes", "My recipes","Quit" });
+			if (choice == 1) { // Search by name
+				searchByRecipeName();
+			} else if (choice == 2) { // Search by ingredients
+				searchByRecipeIngredient();
+			} else if (choice == 3) { // Search by ingredients
+				recipeList(DBProcess.getMostLikedRecipes());
+			} else if (choice == 4) { // Search by ingredients
+				recipeList(DBProcess.getUserRecipe(userId));
+			} else if (choice == 5) { // Quit
+				System.out.println("Why do you leave us!");
+				scanIn.close();
+				System.exit(0);
+			}
 		}
 	}
 
@@ -110,16 +113,15 @@ public class Engine {
 		System.out.println("================================================");
 		System.out.println("\t Rate " + recipe.get("name"));
 		System.out.println("================================================");
-		int choice = printOptions(new String[] { "Like", "Neutral", "Dislike" });
+		int choice = printOptions(new String[] { "Like", "Dislike" });
 		int rating = 0;
-		if (choice == 1) { // Search by name
+		if (choice == 1) {
 			rating = 1;
-		} else if (choice == 2) { // Search by ingredients
-			rating = 0;
-		} else if (choice == 3) { // Search by ingredients
+		} else if (choice == 2) {
 			rating = -1;
 		}
 
+		DBProcess.userRateRecipe(rating, userId, Integer.parseInt(recipe.get("id")));
 		
 		System.out.println("Recipe rated!");
 	}
