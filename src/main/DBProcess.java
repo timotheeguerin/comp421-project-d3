@@ -2,6 +2,7 @@ package main;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -86,5 +87,22 @@ public class DBProcess{
 		}
 	}
 	
+	static List<String> findRecipes(String arg) {
+		List<HashMap<String,String>> resultSet = sql.ExecuteQuery("SELECT name FROM recipe WHERE name LIKE '?%'" , arg);
+		List<String> list = new ArrayList<String>();
+		
+		for(HashMap<String,String> map : resultSet){
+			list.add(map.get("name"));
+		}
+		
+		return list;
+	}
+	
+	static HashMap<String,String> getRecipe(String arg) {
+		List<HashMap<String,String>> resultSet = sql.ExecuteQuery("SELECT name FROM recipe WHERE name LIKE '?%'" , arg);
+		HashMap<String,String> row = resultSet.get(0);
+		
+		return row;
+	}
 	
 }
