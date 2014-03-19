@@ -36,14 +36,16 @@ public class Engine {
 		System.out.println("Welcome back user " + userId);
 		System.out.println("================================================");
 		int choice = printOptions(new String[] { "Search by recipe name",
-				"Search by ingredients", "My recipes", "Quit" });
+				"Search by ingredients","Our most rated recipes", "My recipes","Quit" });
 		if (choice == 1) { // Search by name
 			searchByRecipeName();
 		} else if (choice == 2) { // Search by ingredients
 			searchByRecipeIngredient();
 		} else if (choice == 3) { // Search by ingredients
+			recipeList(DBProcess.getMostLikedRecipes());
+		} else if (choice == 4) { // Search by ingredients
 			recipeList(DBProcess.getUserRecipe(userId));
-		} else if (choice == 4) { // Quit
+		} else if (choice == 5) { // Quit
 			System.out.println("Why do you leave us!");
 			scanIn.close();
 			System.exit(0);
@@ -67,7 +69,6 @@ public class Engine {
 		System.out.println("\t Search recipe by ingredients");
 		System.out.println("================================================");
 		String query = scanIn.next();
-		System.out.println(query);
 		List<String> recipes = DBProcess.findRecipesByIngredients(query
 				.split(","));
 		recipeList(recipes);

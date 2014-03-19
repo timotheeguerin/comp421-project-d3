@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.omg.CORBA.portable.ValueBase;
+import org.omg.CORBA.portable.ValueOutputStream;
+
 public class DBProcess {
 	public static SQLConnection sql = new SQLConnection("bendodev.no-ip.org",
 			"comp421project", "root", "madremia350");
@@ -169,4 +172,17 @@ public class DBProcess {
 		return list;
 	}
 
+	static void userRateRecipe(int rating,int userId, int recipeId) {
+		List<HashMap<String,String>> resultSet = sql.ExecuteQuery(
+				"SELECT * FROM user_recipe_rating WHERE user_id= ? AND recipe_id = ?",
+				String.valueOf(userId),String.valueOf(recipeId));
+		
+		if(resultSet.size() == 0) {
+			sql.ExecuteUpdate("INSERT INTO user_recipe_rating (rating,user_id,recipe_id) VALUE (?,?,?)",String.valueOf(rating),String.valueOf(userId),String.valueOf(recipeId));
+		}
+		else {
+			sql.ExecuteUpdate("UPDATE user_recipe_rating SET rating = ? WHERE user_id = ? AND recipe_id = ? ",String.valueOf(rating),String.valueOf(userId),String.valueOf(recipeId));
+		}
+	}
+	
 }
