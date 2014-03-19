@@ -35,6 +35,7 @@ public class Engine {
 		System.out.println("================================================");
 		System.out.println("Welcome back user " + userId);
 		System.out.println("================================================");
+		
 		int choice = printOptions(new String[] { "Search by recipe name",
 				"Search by ingredients","Our most rated recipes", "My recipes","Quit" });
 		if (choice == 1) { // Search by name
@@ -93,6 +94,34 @@ public class Engine {
 		System.out.printf("%-20s: %s\n", "Cooking time",
 				recipe.get("cooking_time"));
 		System.out.println(recipe.get("preparation"));
+
+		int choice = printOptions(new String[] { "Rate this recipe",
+				"Back to menu" });
+		if (choice == 1) { // Search by name
+			rateRecipe(recipe);
+		} else if (choice == 2) { // Search by ingredients
+			return;
+		}
+	}
+
+	private void rateRecipe(HashMap<String, String> recipe) {
+
+		System.out.println();
+		System.out.println("================================================");
+		System.out.println("\t Rate " + recipe.get("name"));
+		System.out.println("================================================");
+		int choice = printOptions(new String[] { "Like", "Neutral", "Dislike" });
+		int rating = 0;
+		if (choice == 1) { // Search by name
+			rating = 1;
+		} else if (choice == 2) { // Search by ingredients
+			rating = 0;
+		} else if (choice == 3) { // Search by ingredients
+			rating = -1;
+		}
+
+		
+		System.out.println("Recipe rated!");
 	}
 
 	private void signin() {
