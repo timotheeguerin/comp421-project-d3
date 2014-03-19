@@ -105,4 +105,31 @@ public class DBProcess{
 		return row;
 	}
 	
+	static List<String> findRecipesByIngredients(String[] ingredientList) {
+		
+		String ingredientListAsString = "";
+		
+		for(int i = 0; i < ingredientList.length; i++) {
+			ingredientListAsString += "'" + ingredientList[i] + "'";
+			if(i != ingredientList.length - 1) {
+				ingredientListAsString += ",";
+			}
+		}
+		
+		List<HashMap<String,String>> resultSet = sql.ExecuteQuery("SELECT r.`name` FROM recipe r "
+				+ "JOIN recipe_ingredient ri ON ri.recipe_id = r.id "
+				+ "JOIN ingredient i ON i.id = ri.ingredient_id "
+				+ "WHERE i.`name` in ("+ ingredientListAsString + " ) "
+				+ "GROUP BY r.`id` "
+				+ "HAVING COUNT(r.`id`) >= ?",String.valueOf(ingredientList.length));
+		
+		List<String> list = new ArrayList<String>();
+		
+		for(HashMap<String,String> map : resultSet) {
+			list.add(map.get("name"));
+		}
+		
+		return list;
+	}
+	
 }

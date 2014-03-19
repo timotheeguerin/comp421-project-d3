@@ -66,8 +66,7 @@ public class Engine {
 		System.out.println("================================================");
 		String query = scanIn.next();
 		System.out.println(query);
-		query.split(",");
-		List<String> recipes = DBProcess.findRecipes(query);
+		List<String> recipes = DBProcess.findRecipesByIngredients(query.split(","));
 		recipeList(recipes);
 
 	}
