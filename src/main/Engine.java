@@ -36,11 +36,11 @@ public class Engine {
 		System.out.println("Welcome back user " + userId);
 		System.out.println("================================================");
 		int choice = printOptions(new String[] { "Search by recipe name",
-				"OTHER TODO", "Quit" });
+				"Search by ingredients", "Quit" });
 		if (choice == 1) { // Search by name
 			searchByRecipeName();
 		} else if (choice == 2) { // Sign up
-			return;
+			searchByRecipeIngredient();
 		} else if (choice == 3) { // Quit
 			System.out.println("Why do you leave us!");
 			scanIn.close();
@@ -54,7 +54,19 @@ public class Engine {
 		System.out.println("\t Search recipe by name");
 		System.out.println("================================================");
 		String query = scanIn.next();
+		List<String> recipes = DBProcess.findRecipes(query);
+		recipeList(recipes);
+
+	}
+
+	private void searchByRecipeIngredient() {
+
+		System.out.println("================================================");
+		System.out.println("\t Search recipe by ingredients");
+		System.out.println("================================================");
+		String query = scanIn.next();
 		System.out.println(query);
+		query.split(",");
 		List<String> recipes = DBProcess.findRecipes(query);
 		recipeList(recipes);
 
@@ -67,12 +79,16 @@ public class Engine {
 	}
 
 	private void displayRecipe(String recipeName) {
-		
+
 		HashMap<String, String> recipe = DBProcess.getRecipe(recipeName);
 		System.out.println();
 		System.out.println("================================================");
 		System.out.println("\t" + recipe.get("name"));
 		System.out.println("================================================");
+		System.out.printf("%-20s: %s\n", "Preparation time",
+				recipe.get("preparation_time"));
+		System.out.printf("%-20s: %s\n", "Cooking time",
+				recipe.get("cooking_time"));
 		System.out.println(recipe.get("preparation"));
 	}
 
