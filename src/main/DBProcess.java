@@ -119,6 +119,18 @@ public class DBProcess {
 		return list;
 	}
 
+	static List<String> getMostLikedRecipes() {
+		List<HashMap<String, String>> resultSet = sql
+				.ExecuteQuery("SELECT name FROM recipe ORDER BY rating desc LIMIT 3");
+		List<String> list = new ArrayList<String>();
+
+		for (HashMap<String, String> map : resultSet) {
+			list.add(map.get("name"));
+		}
+
+		return list;
+	}
+
 	static HashMap<String, String> getRecipe(String arg) {
 		List<HashMap<String, String>> resultSet = sql
 				.ExecuteQuery("SELECT * FROM recipe WHERE name LIKE '" + arg
