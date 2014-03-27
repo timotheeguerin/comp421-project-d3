@@ -109,6 +109,10 @@ public class DBProcess {
 		return list;
 	}
 
+	public static void executeProcedure(int guidemode) {
+		sql.executeProcedure("{CALL prc_calculate_recommendation(?)}", String.valueOf(guidemode));
+	}
+
 	static List<String> getUserRecipe(int userId) {
 		List<HashMap<String, String>> resultSet = sql.ExecuteQuery(
 				"SELECT name FROM recipe WHERE user_id = ?",
@@ -172,17 +176,23 @@ public class DBProcess {
 		return list;
 	}
 
-	static void userRateRecipe(int rating,int userId, int recipeId) {
-		List<HashMap<String,String>> resultSet = sql.ExecuteQuery(
-				"SELECT * FROM user_recipe_rating WHERE user_id= ? AND recipe_id = ?",
-				String.valueOf(userId),String.valueOf(recipeId));
-		
-		if(resultSet.size() == 0) {
-			sql.ExecuteUpdate("INSERT INTO user_recipe_rating (rating,user_id,recipe_id) VALUE (?,?,?)",String.valueOf(rating),String.valueOf(userId),String.valueOf(recipeId));
-		}
-		else {
-			sql.ExecuteUpdate("UPDATE user_recipe_rating SET rating = ? WHERE user_id = ? AND recipe_id = ? ",String.valueOf(rating),String.valueOf(userId),String.valueOf(recipeId));
+	static void userRateRecipe(int rating, int userId, int recipeId) {
+		List<HashMap<String, String>> resultSet = sql
+				.ExecuteQuery(
+						"SELECT * FROM user_recipe_rating WHERE user_id= ? AND recipe_id = ?",
+						String.valueOf(userId), String.valueOf(recipeId));
+
+		if (resultSet.size() == 0) {
+			sql.ExecuteUpdate(
+					"INSERT INTO user_recipe_rating (rating,user_id,recipe_id) VALUE (?,?,?)",
+					String.valueOf(rating), String.valueOf(userId),
+					String.valueOf(recipeId));
+		} else {
+			sql.ExecuteUpdate(
+					"UPDATE user_recipe_rating SET rating = ? WHERE user_id = ? AND recipe_id = ? ",
+					String.valueOf(rating), String.valueOf(userId),
+					String.valueOf(recipeId));
 		}
 	}
-	
+
 }
